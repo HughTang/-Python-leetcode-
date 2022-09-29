@@ -9,20 +9,25 @@
 ```Python
 from functools import wraps
 
-
+# 创建外层函数singleton，可以传入类
 def singleton(cls):
     """单例类装饰器"""
+    # 创建一个instances字典用来保存单例
     instances = {}
-
+    
+    # 创建一个内层函数wrapper来获得单例
     @wraps(cls)
     def wrapper(*args, **kwargs):
+        # 判断instances字典中是否含有单例，如果没有就创建单例并保存到instances字典中，然后返回该单例
         if cls not in instances:
             instances[cls] = cls(*args, **kwargs)
         return instances[cls]
-
+    
+    # 返回内层函数wrapper
     return wrapper
 
 
+# 创建单例类
 @singleton
 class President:
     pass

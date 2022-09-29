@@ -26,6 +26,82 @@
 - 字典的查询速度永远都是O(1)，速度不会随字典内元素的增加而改变，但是字典的缺点是占用内存过大；
 - 列表的查询速度为O(N)，因此列表内元素越多，查询速度越慢，但是列表的优点是占用内存小。
 
+#### 4、在列表中找寻和为target的子列表
+##### 此类题目如果按照所求子列表中元素是否是连续的，可以分为①在列表中找寻元素组合 或 ②在列表中找寻子序列。
+##### （1）如果是寻找连续子序列，一般通过哈希表（字典）来实现，可以根据所求结果，将题目分为 ①求满足题意的子列表个数 或 ②求最大子序列长度。如果是求子序列的个数，一般哈希表初始化为{0:1}，保证其提前涵盖了列表中的某个值正好等于target的情况；如果是求连续子序列的最大长度，一般哈希表初始化为{0:-1}，保证其提前涵盖了列表中的最长子序列是从第一个元素就开始的情况。典型题目如下：
+- 560.和为k的子数组（求子数组的个数）
+- NC125 和为K的连续子数组（求最长子数组的长度）
+##### （2）如果是寻找非连续子序列，即寻找的是列表的元素组合是否能够相加等于target，一般通过dp或DFS/BFS来实现，可以根据所求结果，将题目分为 ①求是否存在某种组合；②求满足题意的组合个数；③求组合元素数量最少的情况；④求所有的组合情况列表。其中①②③一般通过DP来实现，④一般通过DFS/BFS来实现，需要注意的是，②也可以通过DFS来实现，但是可能会超时。典型题目如下：
+- 416.分割等和子集（①，0-1背包问题，dp[i] = dp[i] or dp[i-v]）
+- 494.目标和（②，0-1背包，dp[i] += dp[i-v]）
+- 518.零钱兑换-ii（②，完全背包，dp[i] += dp[i-coin]）
+- 322.零钱兑换（③，完全背包，dp[i] = min(dp[i], dp[i-coin] + 1)）
+- 279.完全平方数（③，完全背包，dp[i] = min(dp[i], dp[i-v] + 1)）
+- 39.组合总和（④，Backtracking，self.dfs(nums[i:], target-nums[i], ans, path+[nums[i]])）
+- 40.组合总和-ii（④，Backtracking+剪枝，self.dfs(nums[i+1:], target-nums[i], ans, path+[nums[i]])）
+- 216.组合总和-iii（④，Backtracking，self.dfs(nums[i+1:], n-nums[i], k-1, ans, path+[nums[i]])）
+
+#### 5、判断字符串是否是纯数字
+```python
+# 如果str1是纯数字，则返回True，否则返回False
+str1.isdigit()
+```
+#### 6、print调整数字的精度及带符号输出
+```python
+x = 102
+y = -103
+# 精度控制
+print('%.2f' % x) # 102.00
+print('{:.2f}'.format(x))  # 102.00
+
+# 精度控制+带符号输出 
+print('%+.2f' % x) # +102.00
+print('%+.2f' % y) # -102.00
+print('{:+.2f}'.format(x)) # +102.00
+print('{:+.2f}'.format(y)) # -103.00
+```
+
+#### 7、进制转换
+```python
+# X进制转十进制：int()转化的结果是一个十进制数
+int('X进制数', X)
+
+# X进制转十六进制：先将X进制数转为十进制数，再利用hex函数转十六进制，转化的结果是'0x'开头的十六进制字符串
+hex(int('X进制数', X))
+
+# X进制转二进制：先将X进制数转为十进制数，再利用bin函数转二进制，转化的结果是'0b'开头的二进制字符串
+bin(int('X进制数', X))
+
+# X进制转八进制：oct()转化的结果是'0o'开头的八进制字符串
+oct(X进制数)
+```
+
+#### 8、any与all的使用
+##### any() 函数用于判断给定的可迭代参数 iterable 是否全部为 False，则返回 False，如果有一个为 True，则返回 True。元素除了是 0、空、FALSE 外都算 TRUE。函数等价于：
+```python
+def any(iterable):
+    for element in iterable:
+        if element:
+            return True
+    return False
+```
+```python
+# 举例：解数独问题中的判断
+if any(board[i][col] == target for i in range(9)): return False
+```
+
+##### all() 函数用于判断给定的可迭代参数 iterable 中的所有元素是否都为 TRUE，如果是返回 True，否则返回 False。元素除了是 0、空、None、False 外都算 True。函数等价于：
+```python
+def all(iterable):
+    for element in iterable:
+        if not element:
+            return False
+    return True
+```
+
+#### 9、判断两个字符串是否含有相同字符
+##### 典型题目
+- 318.最大单词长度乘积
 
 ### 需要时常回顾的难题：
 #### String
